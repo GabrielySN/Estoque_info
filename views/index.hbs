@@ -1,158 +1,1516 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <title>App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Estoque Escolar</title>
+    <style>
+      :root {
+        --bg: #f4f7fb;
+        --surface: #ffffff;
+        --surface-2: #eef3f8;
+        --ink: #172033;
+        --muted: #637083;
+        --line: #d9e1ea;
+        --brand: #1f6f8b;
+        --brand-2: #2f855a;
+        --warn: #b42318;
+        --shadow: 0 14px 36px rgba(30, 45, 62, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+
+      button {
+        border: 0;
+        cursor: pointer;
+      }
+
+      button:disabled {
+        cursor: not-allowed;
+        opacity: 0.58;
+      }
+
+      .shell {
+        display: grid;
+        grid-template-columns: 280px minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        background: #0f2636;
+        color: #eef7fb;
+        padding: 28px 22px;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 32px;
+      }
+
+      .brand-mark {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 8px;
+        background: #3aa0b8;
+        color: #06202d;
+        font-weight: 900;
+      }
+
+      .brand strong {
+        display: block;
+        font-size: 18px;
+      }
+
+      .brand span {
+        color: #b9d0dd;
+        font-size: 13px;
+      }
+
+      .session {
+        display: grid;
+        gap: 10px;
+        padding: 14px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        margin-bottom: 22px;
+      }
+
+      .session-user {
+        display: grid;
+        gap: 4px;
+        width: 100%;
+        padding: 0;
+        color: inherit;
+        background: transparent;
+        text-align: left;
+      }
+
+      .session-user:hover strong {
+        text-decoration: underline;
+      }
+
+      .session small {
+        color: #b9d0dd;
+      }
+
+      .nav {
+        display: grid;
+        gap: 8px;
+      }
+
+      .nav button {
+        width: 100%;
+        text-align: left;
+        color: #e7f2f7;
+        background: transparent;
+        border-radius: 8px;
+        padding: 11px 12px;
+      }
+
+      .nav button.active,
+      .nav button:hover {
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .main {
+        min-width: 0;
+        padding: 28px;
+      }
+
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: center;
+        margin-bottom: 22px;
+      }
+
+      .topbar h1 {
+        margin: 0;
+        font-size: 28px;
+        line-height: 1.18;
+      }
+
+      .topbar p {
+        margin: 6px 0 0;
+        color: var(--muted);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 18px;
+      }
+
+      .panel {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        padding: 18px;
+      }
+
+      .span-4 {
+        grid-column: span 4;
+      }
+
+      .span-6 {
+        grid-column: span 6;
+      }
+
+      .span-8 {
+        grid-column: span 8;
+      }
+
+      .span-12 {
+        grid-column: span 12;
+      }
+
+      .panel-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 14px;
+      }
+
+      .panel-title h2 {
+        margin: 0;
+        font-size: 18px;
+      }
+
+      .panel-title small {
+        color: var(--muted);
+      }
+
+      .form {
+        display: grid;
+        gap: 12px;
+      }
+
+      .form.two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+
+      label {
+        color: #344054;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+        color: var(--ink);
+        padding: 10px 11px;
+        outline: none;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 82px;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: #1f6f8b;
+        box-shadow: 0 0 0 3px rgba(31, 111, 139, 0.14);
+      }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .btn {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        min-height: 40px;
+        border-radius: 8px;
+        padding: 10px 14px;
+        background: var(--brand);
+        color: #fff;
+        font-weight: 800;
+      }
+
+      .btn.secondary {
+        background: #e9f1f5;
+        color: #164055;
+      }
+
+      .btn.success {
+        background: var(--brand-2);
+      }
+
+      .btn.danger {
+        background: var(--warn);
+      }
+
+      .btn.ghost {
+        background: transparent;
+        color: #d9edf5;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+
+      .tabs {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .tabs button {
+        border-radius: 8px;
+        background: var(--surface-2);
+        color: #27445a;
+        padding: 9px 12px;
+        font-weight: 800;
+      }
+
+      .tabs button.active {
+        background: var(--brand);
+        color: #fff;
+      }
+
+      .table-wrap {
+        width: 100%;
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 680px;
+        background: #fff;
+      }
+
+      th,
+      td {
+        padding: 11px 12px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        font-size: 14px;
+        vertical-align: top;
+      }
+
+      th {
+        background: #f6f9fc;
+        color: #465668;
+        font-size: 12px;
+        text-transform: uppercase;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        padding: 4px 9px;
+        font-size: 12px;
+        font-weight: 900;
+        background: #eef3f8;
+        color: #334155;
+      }
+
+      .status.disponivel {
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .status.manutencao {
+        background: #fef3c7;
+        color: #92400e;
+      }
+
+      .status.indisponivel {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      .notice {
+        display: none;
+        margin-bottom: 16px;
+        border-radius: 8px;
+        padding: 12px 14px;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: #244154;
+      }
+
+      .notice.show {
+        display: block;
+      }
+
+      .notice.error {
+        border-color: #fecaca;
+        background: #fff1f2;
+        color: #991b1b;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .auth-layout {
+        display: grid;
+        grid-template-columns: minmax(280px, 430px) minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .auth-panel {
+        display: grid;
+        align-content: center;
+        gap: 16px;
+        background: #0f2636;
+        color: #eef7fb;
+        padding: 36px;
+      }
+
+      .auth-panel h1 {
+        margin: 0;
+        font-size: 34px;
+        line-height: 1.05;
+      }
+
+      .auth-panel p {
+        color: #bdd5e0;
+        margin: 0;
+        line-height: 1.5;
+      }
+
+      .auth-workspace {
+        display: grid;
+        align-content: center;
+        padding: 36px;
+      }
+
+      .auth-card {
+        max-width: 760px;
+        width: 100%;
+        margin: 0 auto;
+      }
+
+      @media (max-width: 940px) {
+        .shell,
+        .auth-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: static;
+          height: auto;
+        }
+
+        .span-4,
+        .span-6,
+        .span-8,
+        .span-12 {
+          grid-column: span 12;
+        }
+
+        .form.two {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 620px) {
+        .main,
+        .auth-workspace,
+        .auth-panel {
+          padding: 20px;
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    </style>
   </head>
   <body>
-    {{ message }}
-    <h1>Olá</h1>
-  </body>
-</html>
+    <section id="authScreen" class="auth-layout">
+      <aside class="auth-panel">
+        <div class="brand">
+          <div class="brand-mark">EE</div>
+          <div>
+            <strong>Estoque Escolar</strong>
+            <span>Informatica e emprestimos</span>
+          </div>
+        </div>
+        <h1>Controle de dispositivos por perfil</h1>
+        <p>
+          Direcao administra usuarios, categorias e itens. Professores acompanham
+          emprestimos e baixas. Alunos veem apenas equipamentos disponiveis.
+        </p>
+      </aside>
 
-178
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Motivo da Baixa</label>
-179
-                            <div class="space-y-2">
-180
-                                <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition">
-181
-                                    <input type="radio" name="motivo" value="danificado" checked class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-182
-                                    <span class="text-sm font-medium text-gray-700">Danificado</span>
-183
-                                </label>
-184
-                                <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition">
-185
-                                    <input type="radio" name="motivo" value="perda" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-186
-                                    <span class="text-sm font-medium text-gray-700">Perda</span>
-187
-                                </label>
-188
-                                <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition">
-189
-                                    <input type="radio" name="motivo" value="venda" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-190
-                                    <span class="text-sm font-medium text-gray-700">Venda</span>
-191
-                                </label>
-192
-                            </div>
-193
-                        </div>
-194
-​
-195
-                        <div>
-196
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Data do Fato</label>
-197
-                            <input type="date" value="2026-05-25" class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-198
-                        </div>
-199
-                    </div>
-200
-​
-201
-                    <div class="lg:col-span-2 space-y-6 lg:border-l lg:pl-8 border-gray-200">
-202
-                        <h3 class="font-semibold text-gray-900 text-sm tracking-wide uppercase">Adicionar Item à Baixa</h3>
-203
-                        
-204
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
-205
-                            <div class="sm:col-span-2">
-206
-                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Código / Código de Barras</label>
-207
-                                <div class="relative">
-208
-                                    <i data-lucide="scan-barcode" class="w-5 h-5 text-gray-400 absolute left-3 top-3"></i>
-209
-                                    <input type="text" value="22113" class="w-full border border-gray-300 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Digite ou escaneie...">
-210
-                                </div>
-211
-                            </div>
-212
-                            <button type="button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm px-5 py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
-213
-                                <i data-lucide="search" class="w-4 h-4"></i> Buscar
-214
-                            </button>
-215
-                        </div>
-216
-​
-217
-                        <div class="bg-gray-50 rounded-xl p-4 border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-218
-                            <div>
-219
-                                <p class="text-xs font-mono text-gray-400">COD: 22113</p>
-220
-                                <p class="font-bold text-gray-800">Tablet Samsung Galaxy Tab A8</p>
-221
-                            </div>
-222
-                            <div class="flex items-center border border-gray-300 bg-white rounded-lg overflow-hidden">
-223
-                                <button type="button" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 transition font-bold text-gray-600">-</button>
-224
-                                <input type="number" value="1" class="w-12 text-center text-sm font-semibold focus:outline-none bg-transparent">
-225
-                                <button type="button" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 transition font-bold text-gray-600">+</button>
-226
-                            </div>
-227
-                        </div>
-228
-​
-229
-                        <div>
-230
-                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Observação (Opcional)</label>
-231
-                            <textarea rows="2" class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Ex: Tela trincada após queda acidental no pátio..."></textarea>
-232
-                        </div>
-233
-​
-234
-                        <div class="flex justify-end pt-4 border-t border-gray-100">
-235
-                            <button type="button" class="w-full sm:w-auto px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm rounded-xl transition shadow-sm flex items-center justify-center gap-2">
-236
-                                <i data-lucide="trash-2" class="w-4 h-4"></i> Confirmar Baixa do Item
-237
-                            </button>
-238
-                        </div>
-239
-                    </div>
-240
-                </div>
-241
-            </section>
-242
-​
-243
-        </main>
-244
-    </div>
-245
-​
-246
+      <main class="auth-workspace">
+        <div class="panel auth-card">
+          <div class="panel-title">
+            <div>
+              <h2>Acesso</h2>
+              <small>Use o e-mail no formato usuario@escola.uf.gov.br</small>
+            </div>
+            <div class="tabs" aria-label="Escolha o modo de acesso">
+              <button class="active" data-auth-tab="login" type="button">Entrar</button>
+              <button data-auth-tab="cadastro" type="button">Cadastro</button>
+              <button data-auth-tab="recuperacao" type="button">Recuperar</button>
+            </div>
+          </div>
+
+          <div id="notice" class="notice" role="status"></div>
+
+          <form id="loginForm" class="form two" data-auth-panel="login">
+            <div class="field">
+              <label for="loginEmail">E-mail escolar</label>
+              <input id="loginEmail" name="emailEscola" required placeholder="nome@escola.sp.gov.br" />
+            </div>
+            <div class="field">
+              <label for="loginSenha">Senha</label>
+              <input id="loginSenha" name="senha" type="password" required />
+            </div>
+            <div class="actions">
+              <button class="btn" type="submit">Entrar</button>
+            </div>
+          </form>
+
+          <form id="signupForm" class="form two hidden" data-auth-panel="cadastro">
+            <div class="field">
+              <label for="signupName">Nome</label>
+              <input id="signupName" name="nomeUsuario" required />
+            </div>
+            <div class="field">
+              <label for="signupEmail">E-mail escolar</label>
+              <input id="signupEmail" name="emailEscola" required placeholder="nome@escola.sp.gov.br" />
+            </div>
+            <div class="field">
+              <label for="signupSenha">Senha</label>
+              <input id="signupSenha" name="senha" type="password" required />
+            </div>
+            <div class="field">
+              <label for="signupTipo">Tipo de usuario</label>
+              <select id="signupTipo" name="tipoUsuario">
+                <option value="aluno">Aluno</option>
+                <option value="professor">Professor</option>
+                <option value="direcao">Diretor</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="signupTurma">Turma</label>
+              <input id="signupTurma" name="nomeTurma" placeholder="Ex: 2A" />
+            </div>
+            <div class="field">
+              <label for="signupMateria">Materia</label>
+              <input id="signupMateria" name="materia" placeholder="Para professor" />
+            </div>
+            <div class="actions">
+              <button class="btn success" type="submit">Cadastrar</button>
+            </div>
+          </form>
+
+          <div id="recoveryPanel" class="form hidden" data-auth-panel="recuperacao">
+            <form id="requestRecoveryForm" class="form two">
+              <div class="field">
+                <label for="recoveryEmail">E-mail escolar</label>
+                <input id="recoveryEmail" name="emailEscola" required placeholder="nome@escola.sp.gov.br" />
+              </div>
+              <div class="actions">
+                <button class="btn" type="submit">Enviar codigo</button>
+              </div>
+            </form>
+            <form id="confirmRecoveryForm" class="form two">
+              <div class="field">
+                <label for="recoveryCode">Codigo numerico</label>
+                <input id="recoveryCode" name="codigo" inputmode="numeric" maxlength="6" required />
+              </div>
+              <div class="field">
+                <label for="recoveryPassword">Nova senha</label>
+                <input id="recoveryPassword" name="senha" type="password" required />
+              </div>
+              <div class="actions">
+                <button class="btn success" type="submit">Confirmar nova senha</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <section id="appScreen" class="shell hidden">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">EE</div>
+          <div>
+            <strong>Estoque Escolar</strong>
+            <span>Painel operacional</span>
+          </div>
+        </div>
+
+        <div class="session">
+          <button id="profileButton" class="session-user" type="button">
+            <strong id="sessionName">Usuario</strong>
+            <small id="sessionRole">Perfil</small>
+          </button>
+          <button id="logoutButton" class="btn ghost" type="button">Sair</button>
+        </div>
+
+        <nav class="nav" aria-label="Navegacao do painel">
+          <button class="active" data-section="dashboard" type="button">Visao geral</button>
+          <button data-section="perfil" type="button">Minhas informacoes</button>
+          <button data-section="itens" type="button">Itens</button>
+          <button data-section="emprestimos" type="button">Emprestimos</button>
+          <button data-section="usuarios" data-role="direcao" type="button">Usuarios</button>
+          <button data-section="categorias" data-role="direcao" type="button">Categorias</button>
+          <button data-section="baixa" data-role="professor,direcao" type="button">Baixa</button>
+        </nav>
+      </aside>
+
+      <main class="main">
+        <div class="topbar">
+          <div>
+            <h1 id="pageTitle">Visao geral</h1>
+            <p id="pageSubtitle">Resumo do estoque e das operacoes recentes.</p>
+          </div>
+          <button id="refreshButton" class="btn secondary" type="button">Atualizar dados</button>
+        </div>
+
+        <div id="appNotice" class="notice" role="status"></div>
+
+        <section class="grid app-section" data-app-section="dashboard">
+          <article class="panel span-4">
+            <div class="panel-title">
+              <h2>Itens disponiveis</h2>
+              <small id="availableCount">0</small>
+            </div>
+            <p class="muted">Alunos visualizam somente esta lista para emprestimo.</p>
+          </article>
+          <article class="panel span-4">
+            <div class="panel-title">
+              <h2>Total de itens</h2>
+              <small id="totalCount">0</small>
+            </div>
+            <p class="muted">Direcao pode administrar status, categoria e quantidade.</p>
+          </article>
+          <article class="panel span-4">
+            <div class="panel-title">
+              <h2>Emprestimos</h2>
+              <small id="loanCount">0</small>
+            </div>
+            <p class="muted">Professores conseguem ver quem pegou cada item.</p>
+          </article>
+          <article class="panel span-12">
+            <div class="panel-title">
+              <h2>Itens para consulta</h2>
+              <small id="dashboardMode">Disponiveis</small>
+            </div>
+            <div id="dashboardItems"></div>
+          </article>
+        </section>
+
+        <section class="grid app-section hidden" data-app-section="perfil">
+          <article class="panel span-6">
+            <div class="panel-title">
+              <h2>Minhas informacoes</h2>
+              <small>Dados do usuario</small>
+            </div>
+            <div id="profileDetails"></div>
+          </article>
+        </section>
+
+        <section class="grid app-section hidden" data-app-section="itens">
+          <article class="panel span-4" data-role="direcao">
+            <div class="panel-title">
+              <h2>Novo ou editar item</h2>
+              <small>Direcao</small>
+            </div>
+            <form id="itemForm" class="form">
+              <input type="hidden" name="idItens" />
+              <div class="field">
+                <label>Nome do item</label>
+                <input name="nomeItem" required placeholder="Notebook" />
+              </div>
+              <div class="field">
+                <label>Modelo</label>
+                <input name="modeloItem" placeholder="Dell 3420" />
+              </div>
+              <div class="field">
+                <label>Quantidade</label>
+                <input name="qtdItem" type="number" min="0" value="1" />
+              </div>
+              <div class="field">
+                <label>Status</label>
+                <select name="statusItem">
+                  <option value="disponivel">Disponivel</option>
+                  <option value="manutencao">Manutencao</option>
+                  <option value="indisponivel">Indisponivel</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Categoria</label>
+                <select name="idCategoria" data-category-select></select>
+              </div>
+              <div class="actions">
+                <button class="btn success" type="submit">Salvar item</button>
+                <button id="clearItemForm" class="btn secondary" type="button">Limpar</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="panel span-8">
+            <div class="panel-title">
+              <h2>Estoque</h2>
+              <small id="itemsHint">Lista geral</small>
+            </div>
+            <div id="itemsTable"></div>
+          </article>
+        </section>
+
+        <section class="grid app-section hidden" data-app-section="emprestimos">
+          <article class="panel span-4">
+            <div class="panel-title">
+              <h2>Pegar emprestado</h2>
+              <small id="loanRoleHint">Aluno ou professor</small>
+            </div>
+            <form id="loanForm" class="form">
+              <div class="field">
+                <label>Item disponivel</label>
+                <select name="idItens" id="loanItemSelect" required></select>
+              </div>
+              <div class="field" data-role="professor">
+                <label>Horario</label>
+                <input name="horarioProfessor" placeholder="Ex: 08:00" />
+              </div>
+              <div class="field">
+                <label>Turma</label>
+                <input name="turma" placeholder="Ex: 1B" />
+              </div>
+              <div class="field" data-role="professor">
+                <label>Materia</label>
+                <input name="materia" placeholder="Ex: Matematica" />
+              </div>
+              <div class="field" data-role="aluno">
+                <label>Professor do horario</label>
+                <input name="professorHorario" placeholder="Nome do professor" />
+              </div>
+              <p class="muted">
+                O banco atual salva usuario, item e data. Os detalhes acima ficam
+                prontos para uma futura ampliacao do banco.
+              </p>
+              <button class="btn" type="submit">Confirmar emprestimo</button>
+            </form>
+          </article>
+
+          <article class="panel span-8" data-role="professor,direcao">
+            <div class="panel-title">
+              <h2>Quem pegou cada item</h2>
+              <small>Historico</small>
+            </div>
+            <div id="loanHistory"></div>
+          </article>
+        </section>
+
+        <section class="grid app-section hidden" data-app-section="usuarios" data-role="direcao">
+          <article class="panel span-4">
+            <div class="panel-title">
+              <h2>Usuario</h2>
+              <small>Criar ou modificar</small>
+            </div>
+            <form id="userForm" class="form">
+              <input type="hidden" name="editingEmail" />
+              <div class="field">
+                <label>Nome</label>
+                <input name="nomeUsuario" required />
+              </div>
+              <div class="field">
+                <label>E-mail escolar</label>
+                <input name="emailEscola" required placeholder="nome@escola.sp.gov.br" />
+              </div>
+              <div class="field">
+                <label>Senha</label>
+                <input name="senha" type="password" required />
+              </div>
+              <div class="field">
+                <label>Tipo</label>
+                <select name="tipoUsuario">
+                  <option value="aluno">Aluno</option>
+                  <option value="professor">Professor</option>
+                  <option value="direcao">Diretor</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Turma</label>
+                <input name="nomeTurma" />
+              </div>
+              <div class="field">
+                <label>Materia</label>
+                <input name="materia" />
+              </div>
+              <div class="actions">
+                <button class="btn success" type="submit">Salvar usuario</button>
+                <button id="clearUserForm" class="btn secondary" type="button">Limpar</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="panel span-8">
+            <div class="panel-title">
+              <h2>Usuarios cadastrados</h2>
+              <small>Direcao</small>
+            </div>
+            <div id="usersTable"></div>
+          </article>
+        </section>
+
+        <section class="grid app-section hidden" data-app-section="categorias" data-role="direcao">
+          <article class="panel span-4">
+            <div class="panel-title">
+              <h2>Categoria</h2>
+              <small>Itens</small>
+            </div>
+            <form id="categoryForm" class="form">
+              <input type="hidden" name="idCategoria" />
+              <div class="field">
+                <label>Nome da categoria</label>
+                <input name="nomeCategoria" required placeholder="Notebooks" />
+              </div>
+              <div class="actions">
+                <button class="btn success" type="submit">Salvar categoria</button>
+                <button id="clearCategoryForm" class="btn secondary" type="button">Limpar</button>
+              </div>
+            </form>
+          </article>
+          <article class="panel span-8">
+            <div class="panel-title">
+              <h2>Categorias cadastradas</h2>
+              <small>Direcao</small>
+            </div>
+            <div id="categoriesTable"></div>
+          </article>
+        </section>
+
+        <section class="grid app-section hidden" data-app-section="baixa" data-role="professor,direcao">
+          <article class="panel span-6">
+            <div class="panel-title">
+              <h2>Dar baixa</h2>
+              <small>Professor ou direcao</small>
+            </div>
+            <form id="baixaForm" class="form two">
+              <div class="field">
+                <label>Item</label>
+                <select name="idItens" data-item-select required></select>
+              </div>
+              <div class="field">
+                <label>Quantidade</label>
+                <input name="quantidade" type="number" min="1" value="1" required />
+              </div>
+              <div class="field">
+                <label>Motivo</label>
+                <select name="motivo">
+                  <option value="danificado">Danificado</option>
+                  <option value="perda">Perda</option>
+                  <option value="venda">Venda</option>
+                  <option value="outro">Outro</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Data</label>
+                <input name="dataBaixa" type="date" />
+              </div>
+              <div class="field">
+                <label>Operador</label>
+                <input name="operador" readonly />
+              </div>
+              <div class="field">
+                <label>Observacao opcional</label>
+                <textarea name="observacao"></textarea>
+              </div>
+              <p class="muted">
+                O banco atual reduz a quantidade do item. Motivo, data e
+                observacao aparecem na tela, mas nao sao persistidos no SQL atual.
+              </p>
+              <button class="btn danger" type="submit">Confirmar baixa</button>
+            </form>
+          </article>
+        </section>
+      </main>
+    </section>
+
     <script>
-247
-        lucide.createIcons();
-248
+      const state = {
+        currentUser: null,
+        currentProfile: null,
+        users: [],
+        items: [],
+        categories: [],
+        loans: [],
+        recoveryEmail: "",
+      };
+
+      const roleNames = {
+        direcao: "Diretor",
+        professor: "Professor",
+        aluno: "Aluno",
+      };
+
+      const statusNames = {
+        disponivel: "Disponivel",
+        manutencao: "Manutencao",
+        indisponivel: "Indisponivel",
+      };
+
+      const sectionTitles = {
+        dashboard: ["Visao geral", "Resumo do estoque e das operacoes recentes."],
+        perfil: ["Minhas informacoes", "Nome, e-mail, turma e dados do perfil."],
+        itens: ["Itens", "Cadastro, edicao, status e categorias."],
+        emprestimos: ["Emprestimos", "Retirada de dispositivos e historico."],
+        usuarios: ["Usuarios", "Cadastro, modificacao e exclusao por perfil."],
+        categorias: ["Categorias", "Organizacao dos itens do estoque."],
+        baixa: ["Baixa", "Reducao de quantidade em estoque."],
+      };
+
+      const $ = (selector, root = document) => root.querySelector(selector);
+      const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+      function formData(form) {
+        return Object.fromEntries(new FormData(form).entries());
+      }
+
+      function cleanPayload(payload) {
+        return Object.fromEntries(
+          Object.entries(payload).filter(([, value]) => value !== "" && value != null),
+        );
+      }
+
+      async function api(path, options = {}) {
+        const response = await fetch(path, {
+          headers: { "Content-Type": "application/json" },
+          ...options,
+        });
+
+        if (!response.ok) {
+          let message = "Nao foi possivel concluir a acao.";
+          try {
+            const error = await response.json();
+            message = Array.isArray(error.message) ? error.message.join(", ") : error.message || message;
+          } catch (err) {}
+          throw new Error(message);
+        }
+
+        if (response.status === 204) {
+          return null;
+        }
+
+        return response.json();
+      }
+
+      function notify(message, isError = false, target = "#notice") {
+        const box = $(target);
+        box.textContent = message;
+        box.classList.toggle("error", isError);
+        box.classList.add("show");
+        window.setTimeout(() => box.classList.remove("show"), 5200);
+      }
+
+      function setAuthTab(name) {
+        $$("[data-auth-tab]").forEach((button) =>
+          button.classList.toggle("active", button.dataset.authTab === name),
+        );
+        $$("[data-auth-panel]").forEach((panel) =>
+          panel.classList.toggle("hidden", panel.dataset.authPanel !== name),
+        );
+      }
+
+      function setSection(name) {
+        $$(".nav button").forEach((button) =>
+          button.classList.toggle("active", button.dataset.section === name),
+        );
+        $$(".app-section").forEach((section) =>
+          section.classList.toggle("hidden", section.dataset.appSection !== name),
+        );
+        const [title, subtitle] = sectionTitles[name] || sectionTitles.dashboard;
+        $("#pageTitle").textContent = title;
+        $("#pageSubtitle").textContent = subtitle;
+      }
+
+      function applyRoleVisibility() {
+        const role = state.currentUser?.tipoUsuario;
+        $$("[data-role]").forEach((element) => {
+          const allowed = element.dataset.role.split(",");
+          element.classList.toggle("hidden", !allowed.includes(role));
+        });
+
+        if (role === "aluno") {
+          $("#itemsHint").textContent = "Somente disponiveis";
+          $("#dashboardMode").textContent = "Somente disponiveis";
+        } else {
+          $("#itemsHint").textContent = "Lista geral";
+          $("#dashboardMode").textContent = "Todos os itens";
+        }
+      }
+
+      async function refreshData() {
+        const role = state.currentUser?.tipoUsuario;
+        const itemPath = role === "aluno" ? "/itens/disponiveis" : "/itens";
+
+        const requests = [
+          api(itemPath),
+          api("/categorias"),
+          api(`/users/${state.currentUser.emailEscola}/perfil`),
+          role === "direcao" ? api("/users/perfis") : Promise.resolve([]),
+          role === "professor" || role === "direcao"
+            ? api("/emprestimos/historico")
+            : Promise.resolve([]),
+        ];
+
+        const [items, categories, profile, users, loans] = await Promise.all(requests);
+        state.items = items;
+        state.categories = categories;
+        state.currentProfile = profile;
+        state.users = users;
+        state.loans = loans;
+
+        renderAll();
+      }
+
+      function renderAll() {
+        applyRoleVisibility();
+        renderCounts();
+        renderProfile();
+        renderCategoryOptions();
+        renderItemOptions();
+        renderItems();
+        renderUsers();
+        renderCategories();
+        renderLoans();
+      }
+
+      function renderCounts() {
+        const available = state.items.filter((item) => item.statusItem === "disponivel").length;
+        $("#availableCount").textContent = available;
+        $("#totalCount").textContent = state.items.length;
+        $("#loanCount").textContent = state.loans.length;
+      }
+
+      function renderProfile() {
+        const profile = state.currentProfile || state.currentUser;
+        const details = [
+          ["Nome", profile?.nomeUsuario || "-"],
+          ["E-mail", profile?.emailEscola || "-"],
+          ["Perfil", roleNames[profile?.tipoUsuario] || profile?.tipoUsuario || "-"],
+          ["Turma", profile?.nomeTurma || "-"],
+        ];
+
+        if (profile?.tipoUsuario === "professor") {
+          details.push(["Materia", profile.materia || "-"]);
+        }
+
+        if (profile?.tipoUsuario === "aluno") {
+          details.push(["Numero da chamada", profile.numChamada || "-"]);
+        }
+
+        $("#profileDetails").innerHTML = `
+          <div class="table-wrap">
+            <table>
+              <tbody>
+                ${details
+                  .map(
+                    ([label, value]) => `
+                      <tr>
+                        <th>${label}</th>
+                        <td>${value}</td>
+                      </tr>
+                    `,
+                  )
+                  .join("")}
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function categoryName(idCategoria) {
+        return state.categories.find((category) => category.idCategoria === idCategoria)?.nomeCategoria || "-";
+      }
+
+      function renderCategoryOptions() {
+        $$("[data-category-select]").forEach((select) => {
+          select.innerHTML =
+            '<option value="">Sem categoria</option>' +
+            state.categories
+              .map((category) => `<option value="${category.idCategoria}">${category.nomeCategoria}</option>`)
+              .join("");
+        });
+      }
+
+      function renderItemOptions() {
+        const options = state.items
+          .map((item) => `<option value="${item.idItens}">${item.idItens} - ${item.nomeItem}</option>`)
+          .join("");
+        const availableOptions = state.items
+          .filter((item) => item.statusItem === "disponivel")
+          .map((item) => `<option value="${item.idItens}">${item.idItens} - ${item.nomeItem}</option>`)
+          .join("");
+
+        $$("[data-item-select]").forEach((select) => {
+          select.innerHTML = options || '<option value="">Nenhum item cadastrado</option>';
+        });
+        $("#loanItemSelect").innerHTML =
+          availableOptions || '<option value="">Nenhum item disponivel</option>';
+      }
+
+      function renderItems() {
+        const rows = state.items
+          .map(
+            (item) => `
+              <tr>
+                <td>${item.idItens}</td>
+                <td><strong>${item.nomeItem}</strong><br /><span class="muted">${item.modeloItem || "-"}</span></td>
+                <td>${item.qtdItem}</td>
+                <td><span class="status ${item.statusItem}">${statusNames[item.statusItem] || item.statusItem}</span></td>
+                <td>${categoryName(item.idCategoria)}</td>
+                <td>
+                  <button class="btn secondary" type="button" data-edit-item="${item.idItens}">Editar</button>
+                  <button class="btn danger" type="button" data-delete-item="${item.idItens}">Excluir</button>
+                </td>
+              </tr>
+            `,
+          )
+          .join("");
+
+        const table = `
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Item</th>
+                  <th>Qtd.</th>
+                  <th>Status</th>
+                  <th>Categoria</th>
+                  <th>Acoes</th>
+                </tr>
+              </thead>
+              <tbody>${rows || '<tr><td colspan="6">Nenhum item encontrado.</td></tr>'}</tbody>
+            </table>
+          </div>
+        `;
+
+        $("#itemsTable").innerHTML = table;
+        $("#dashboardItems").innerHTML = table;
+      }
+
+      function renderUsers() {
+        const rows = state.users
+          .map(
+            (user) => `
+              <tr>
+                <td><strong>${user.nomeUsuario}</strong></td>
+                <td>${user.emailEscola}</td>
+                <td>${roleNames[user.tipoUsuario] || user.tipoUsuario}</td>
+                <td>${user.nomeTurma || "-"}</td>
+                <td>${user.materia || "-"}</td>
+                <td>
+                  <button class="btn secondary" type="button" data-edit-user="${user.emailEscola}">Editar</button>
+                  <button class="btn danger" type="button" data-delete-user="${user.emailEscola}">Excluir</button>
+                </td>
+              </tr>
+            `,
+          )
+          .join("");
+
+        $("#usersTable").innerHTML = `
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Nome</th><th>E-mail</th><th>Tipo</th><th>Turma</th><th>Materia</th><th>Acoes</th></tr></thead>
+              <tbody>${rows || '<tr><td colspan="6">Nenhum usuario encontrado.</td></tr>'}</tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function renderCategories() {
+        const rows = state.categories
+          .map(
+            (category) => `
+              <tr>
+                <td>${category.idCategoria}</td>
+                <td><strong>${category.nomeCategoria}</strong></td>
+                <td>
+                  <button class="btn secondary" type="button" data-edit-category="${category.idCategoria}">Editar</button>
+                  <button class="btn danger" type="button" data-delete-category="${category.idCategoria}">Excluir</button>
+                </td>
+              </tr>
+            `,
+          )
+          .join("");
+
+        $("#categoriesTable").innerHTML = `
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>ID</th><th>Nome</th><th>Acoes</th></tr></thead>
+              <tbody>${rows || '<tr><td colspan="3">Nenhuma categoria encontrada.</td></tr>'}</tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      function renderLoans() {
+        const rows = state.loans
+          .map(
+            (loan) => `
+              <tr>
+                <td>${loan.tipo === "aluno" ? "Aluno" : "Professor"}</td>
+                <td><strong>${loan.nomeUsuario || "-"}</strong><br /><span class="muted">${loan.emailEscola}</span></td>
+                <td>${loan.idItens} - ${loan.nomeItem || "-"}</td>
+                <td>${loan.dataEmprestimo ? new Date(loan.dataEmprestimo).toLocaleString("pt-BR") : "-"}</td>
+              </tr>
+            `,
+          )
+          .join("");
+
+        $("#loanHistory").innerHTML = `
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Tipo</th><th>Usuario</th><th>Item</th><th>Data</th></tr></thead>
+              <tbody>${rows || '<tr><td colspan="4">Nenhum emprestimo encontrado.</td></tr>'}</tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      async function enterApp(user) {
+        state.currentUser = user;
+        $("#sessionName").textContent = user.nomeUsuario;
+        $("#sessionRole").textContent = roleNames[user.tipoUsuario] || user.tipoUsuario;
+        $("#authScreen").classList.add("hidden");
+        $("#appScreen").classList.remove("hidden");
+        $("input[name='operador']", $("#baixaForm")).value = user.nomeUsuario;
+        await refreshData();
+        setSection("dashboard");
+      }
+
+      function resetItemForm() {
+        $("#itemForm").reset();
+        $("input[name='idItens']", $("#itemForm")).value = "";
+      }
+
+      function resetUserForm() {
+        $("#userForm").reset();
+        $("input[name='editingEmail']", $("#userForm")).value = "";
+        $("input[name='emailEscola']", $("#userForm")).disabled = false;
+        $("select[name='tipoUsuario']", $("#userForm")).disabled = false;
+      }
+
+      function resetCategoryForm() {
+        $("#categoryForm").reset();
+        $("input[name='idCategoria']", $("#categoryForm")).value = "";
+      }
+
+      $$("[data-auth-tab]").forEach((button) => {
+        button.addEventListener("click", () => setAuthTab(button.dataset.authTab));
+      });
+
+      $$(".nav button").forEach((button) => {
+        button.addEventListener("click", () => setSection(button.dataset.section));
+      });
+
+      $("#logoutButton").addEventListener("click", () => {
+        state.currentUser = null;
+        state.currentProfile = null;
+        $("#appScreen").classList.add("hidden");
+        $("#authScreen").classList.remove("hidden");
+      });
+
+      $("#profileButton").addEventListener("click", () => setSection("perfil"));
+
+      $("#refreshButton").addEventListener("click", async () => {
+        try {
+          await refreshData();
+          notify("Dados atualizados.", false, "#appNotice");
+        } catch (error) {
+          notify(error.message, true, "#appNotice");
+        }
+      });
+
+      $("#loginForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          const user = await api("/users/login", {
+            method: "POST",
+            body: JSON.stringify(formData(event.currentTarget)),
+          });
+          await enterApp(user);
+        } catch (error) {
+          notify(error.message, true);
+        }
+      });
+
+      $("#signupForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          const payload = cleanPayload(formData(event.currentTarget));
+          const user = await api("/users", {
+            method: "POST",
+            body: JSON.stringify(payload),
+          });
+          notify("Cadastro realizado. Entrando no painel...");
+          await enterApp(user);
+        } catch (error) {
+          notify(error.message, true);
+        }
+      });
+
+      $("#requestRecoveryForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          const payload = formData(event.currentTarget);
+          state.recoveryEmail = payload.emailEscola;
+          const result = await api("/users/recuperar-senha", {
+            method: "POST",
+            body: JSON.stringify(payload),
+          });
+          notify(result.message || "Codigo enviado.");
+        } catch (error) {
+          notify(error.message, true);
+        }
+      });
+
+      $("#confirmRecoveryForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          const payload = {
+            ...formData(event.currentTarget),
+            emailEscola: state.recoveryEmail || $("#recoveryEmail").value,
+          };
+          await api("/users/confirmar-recuperacao", {
+            method: "POST",
+            body: JSON.stringify(payload),
+          });
+          notify("Senha alterada. Entre com a nova senha.");
+          setAuthTab("login");
+        } catch (error) {
+          notify(error.message, true);
+        }
+      });
+
+      $("#itemForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          const form = event.currentTarget;
+          const payload = cleanPayload(formData(form));
+          const id = payload.idItens;
+          delete payload.idItens;
+          if (payload.qtdItem != null) payload.qtdItem = Number(payload.qtdItem);
+          if (payload.idCategoria != null) payload.idCategoria = Number(payload.idCategoria);
+
+          await api(id ? `/itens/${id}` : "/itens", {
+            method: id ? "PATCH" : "POST",
+            body: JSON.stringify(payload),
+          });
+          resetItemForm();
+          await refreshData();
+          notify("Item salvo.", false, "#appNotice");
+        } catch (error) {
+          notify(error.message, true, "#appNotice");
+        }
+      });
+
+      $("#loanForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          const form = event.currentTarget;
+          const payload = formData(form);
+          const role = state.currentUser.tipoUsuario;
+          const path = role === "professor" ? "/emprestimos/professores" : "/emprestimos/alunos";
+          await api(path, {
+            method: "POST",
+            body: JSON.stringify({
+              emailEscola: state.currentUser.emailEscola,
+              idItens: Number(payload.idItens),
+            }),
+          });
+          form.reset();
+          await refreshData();
+          notify("Emprestimo registrado. O item saiu da lista de disponiveis.", false, "#appNotice");
+        } catch (error) {
+          notify(error.message, true, "#appNotice");
+        }
+      });
+
+      $("#userForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          const form = event.currentTarget;
+          const payload = cleanPayload(formData(form));
+          const editingEmail = payload.editingEmail;
+          delete payload.editingEmail;
+
+          await api(editingEmail ? `/users/${editingEmail}` : "/users", {
+            method: editingEmail ? "PATCH" : "POST",
+            body: JSON.stringify(payload),
+          });
+          resetUserForm();
+          await refreshData();
+          notify("Usuario salvo.", false, "#appNotice");
+        } catch (error) {
+          notify(error.message, true, "#appNotice");
+        }
+      });
+
+      $("#categoryForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          const payload = cleanPayload(formData(event.currentTarget));
+          const id = payload.idCategoria;
+          delete payload.idCategoria;
+          await api(id ? `/categorias/${id}` : "/categorias", {
+            method: id ? "PATCH" : "POST",
+            body: JSON.stringify(payload),
+          });
+          resetCategoryForm();
+          await refreshData();
+          notify("Categoria salva.", false, "#appNotice");
+        } catch (error) {
+          notify(error.message, true, "#appNotice");
+        }
+      });
+
+      $("#baixaForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        try {
+          const payload = formData(event.currentTarget);
+          await api(`/itens/${payload.idItens}/baixa`, {
+            method: "PATCH",
+            body: JSON.stringify({ quantidade: Number(payload.quantidade) }),
+          });
+          await refreshData();
+          notify("Baixa aplicada na quantidade do item.", false, "#appNotice");
+        } catch (error) {
+          notify(error.message, true, "#appNotice");
+        }
+      });
+
+      $("#clearItemForm").addEventListener("click", resetItemForm);
+      $("#clearUserForm").addEventListener("click", resetUserForm);
+      $("#clearCategoryForm").addEventListener("click", resetCategoryForm);
+
+      document.addEventListener("click", async (event) => {
+        const editItemId = event.target.dataset.editItem;
+        const deleteItemId = event.target.dataset.deleteItem;
+        const editUserEmail = event.target.dataset.editUser;
+        const deleteUserEmail = event.target.dataset.deleteUser;
+        const editCategoryId = event.target.dataset.editCategory;
+        const deleteCategoryId = event.target.dataset.deleteCategory;
+
+        try {
+          if (editItemId) {
+            const item = state.items.find((entry) => String(entry.idItens) === editItemId);
+            if (!item) return;
+            setSection("itens");
+            const form = $("#itemForm");
+            form.idItens.value = item.idItens;
+            form.nomeItem.value = item.nomeItem;
+            form.modeloItem.value = item.modeloItem || "";
+            form.qtdItem.value = item.qtdItem;
+            form.statusItem.value = item.statusItem;
+            form.idCategoria.value = item.idCategoria || "";
+          }
+
+          if (deleteItemId) {
+            await api(`/itens/${deleteItemId}`, { method: "DELETE" });
+            await refreshData();
+            notify("Item excluido.", false, "#appNotice");
+          }
+
+          if (editUserEmail) {
+            const user = state.users.find((entry) => entry.emailEscola === editUserEmail);
+            if (!user) return;
+            setSection("usuarios");
+            const form = $("#userForm");
+            form.editingEmail.value = user.emailEscola;
+            form.nomeUsuario.value = user.nomeUsuario;
+            form.emailEscola.value = user.emailEscola;
+            form.emailEscola.disabled = true;
+            form.senha.value = user.senha || "";
+            form.tipoUsuario.value = user.tipoUsuario;
+            form.tipoUsuario.disabled = true;
+            form.nomeTurma.value = user.nomeTurma || "";
+            form.materia.value = user.materia || "";
+          }
+
+          if (deleteUserEmail) {
+            await api(`/users/${deleteUserEmail}`, { method: "DELETE" });
+            await refreshData();
+            notify("Usuario excluido.", false, "#appNotice");
+          }
+
+          if (editCategoryId) {
+            const category = state.categories.find((entry) => String(entry.idCategoria) === editCategoryId);
+            if (!category) return;
+            setSection("categorias");
+            const form = $("#categoryForm");
+            form.idCategoria.value = category.idCategoria;
+            form.nomeCategoria.value = category.nomeCategoria;
+          }
+
+          if (deleteCategoryId) {
+            await api(`/categorias/${deleteCategoryId}`, { method: "DELETE" });
+            await refreshData();
+            notify("Categoria excluida.", false, "#appNotice");
+          }
+        } catch (error) {
+          notify(error.message, true, "#appNotice");
+        }
+      });
     </script>
-249
-</body>
-250
+  </body>
 </html>
