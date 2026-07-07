@@ -1,4 +1,13 @@
-﻿import { Controller, Delete, Get, Param, ParseIntPipe } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+} from "@nestjs/common";
 import { Categoria } from "./categoria.entity";
 import { CategoriasService } from "./categorias.service";
 
@@ -16,6 +25,19 @@ export class CategoriasController {
     @Param("id", ParseIntPipe) idCategoria: number,
   ): Promise<Categoria | null> {
     return this.categoriasService.findOne(idCategoria);
+  }
+
+  @Post()
+  create(@Body() body): Promise<Categoria> {
+    return this.categoriasService.create(body);
+  }
+
+  @Patch(":id")
+  update(
+    @Param("id", ParseIntPipe) idCategoria: number,
+    @Body() body,
+  ): Promise<Categoria> {
+    return this.categoriasService.update(idCategoria, body);
   }
 
   @Delete(":id")
