@@ -1,4 +1,4 @@
-﻿import { Controller, Delete, Get, Param } from "@nestjs/common";
+import { Controller, Delete, Get, Param } from "@nestjs/common";
 import { Turma } from "./turma.entity";
 import { TurmasService } from "./turmas.service";
 
