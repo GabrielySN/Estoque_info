@@ -1,4 +1,4 @@
-﻿import { Controller, Delete, Get, Param } from "@nestjs/common";
+import { Controller, Delete, Get, Param } from "@nestjs/common";
 import { Professor } from "./professor.entity";
 import { ProfessoresService } from "./professores.service";
 
