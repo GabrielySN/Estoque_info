@@ -1,4 +1,4 @@
-﻿import { Controller, Delete, Get, Param } from "@nestjs/common";
+import { Controller, Delete, Get, Param } from "@nestjs/common";
 import { Direcao } from "./direcao.entity";
 import { DirecaoService } from "./direcao.service";
 
