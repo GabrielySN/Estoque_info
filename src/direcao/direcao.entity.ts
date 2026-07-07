@@ -1,10 +1,18 @@
-﻿import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("direcao")
 export class Direcao {
-  @PrimaryColumn({ name: "email_escola", type: "varchar", length: 70 })
+  @PrimaryGeneratedColumn({ name: "id_direcao", type: "int" })
+  idDirecao: number;
+
+  @Column({ name: "email_escola", type: "varchar", length: 70, unique: true })
   emailEscola: string;
 
-  @Column({ type: "varchar", length: 255 })
-  senha: string;
+  @Column({
+    name: "tipo_usuario",
+    type: "enum",
+    enum: ["direcao"],
+    default: "direcao",
+  })
+  tipoUsuario: "direcao";
 }
