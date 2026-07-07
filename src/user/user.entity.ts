@@ -1,6 +1,6 @@
-﻿import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
-export type UserType = "Aluno(a)" | "Professor(a)" | "Diretor(a)";
+export type UserType = "direcao" | "professor" | "aluno";
 
 @Entity("usuarios")
 export class User {
@@ -16,7 +16,7 @@ export class User {
   @Column({
     name: "tipo_usuario",
     type: "enum",
-    enum: ["Aluno(a)", "Professor(a)", "Diretor(a)"],
+    enum: ["direcao", "professor", "aluno"],
   })
   tipoUsuario: UserType;
 }
