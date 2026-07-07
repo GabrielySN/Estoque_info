@@ -1,4 +1,4 @@
-﻿import { Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { EmprestimosController } from "./emprestimos.controller";
 import { EmprestimosModule } from "./emprestimos.modules";
 import { EmprestimosService } from "./emprestimos.service";
