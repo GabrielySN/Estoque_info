@@ -9,3 +9,150 @@
     <h1>Olá</h1>
   </body>
 </html>
+
+178
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Motivo da Baixa</label>
+179
+                            <div class="space-y-2">
+180
+                                <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition">
+181
+                                    <input type="radio" name="motivo" value="danificado" checked class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
+182
+                                    <span class="text-sm font-medium text-gray-700">Danificado</span>
+183
+                                </label>
+184
+                                <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition">
+185
+                                    <input type="radio" name="motivo" value="perda" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
+186
+                                    <span class="text-sm font-medium text-gray-700">Perda</span>
+187
+                                </label>
+188
+                                <label class="flex items-center gap-3 p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-gray-50 transition">
+189
+                                    <input type="radio" name="motivo" value="venda" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
+190
+                                    <span class="text-sm font-medium text-gray-700">Venda</span>
+191
+                                </label>
+192
+                            </div>
+193
+                        </div>
+194
+​
+195
+                        <div>
+196
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Data do Fato</label>
+197
+                            <input type="date" value="2026-05-25" class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+198
+                        </div>
+199
+                    </div>
+200
+​
+201
+                    <div class="lg:col-span-2 space-y-6 lg:border-l lg:pl-8 border-gray-200">
+202
+                        <h3 class="font-semibold text-gray-900 text-sm tracking-wide uppercase">Adicionar Item à Baixa</h3>
+203
+                        
+204
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
+205
+                            <div class="sm:col-span-2">
+206
+                                <label class="block text-sm font-medium text-gray-700 mb-1.5">Código / Código de Barras</label>
+207
+                                <div class="relative">
+208
+                                    <i data-lucide="scan-barcode" class="w-5 h-5 text-gray-400 absolute left-3 top-3"></i>
+209
+                                    <input type="text" value="22113" class="w-full border border-gray-300 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Digite ou escaneie...">
+210
+                                </div>
+211
+                            </div>
+212
+                            <button type="button" class="bg-indigo-600 hover:bg-indigo-700 text-white font-medium text-sm px-5 py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-sm">
+213
+                                <i data-lucide="search" class="w-4 h-4"></i> Buscar
+214
+                            </button>
+215
+                        </div>
+216
+​
+217
+                        <div class="bg-gray-50 rounded-xl p-4 border border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+218
+                            <div>
+219
+                                <p class="text-xs font-mono text-gray-400">COD: 22113</p>
+220
+                                <p class="font-bold text-gray-800">Tablet Samsung Galaxy Tab A8</p>
+221
+                            </div>
+222
+                            <div class="flex items-center border border-gray-300 bg-white rounded-lg overflow-hidden">
+223
+                                <button type="button" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 transition font-bold text-gray-600">-</button>
+224
+                                <input type="number" value="1" class="w-12 text-center text-sm font-semibold focus:outline-none bg-transparent">
+225
+                                <button type="button" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 transition font-bold text-gray-600">+</button>
+226
+                            </div>
+227
+                        </div>
+228
+​
+229
+                        <div>
+230
+                            <label class="block text-sm font-medium text-gray-700 mb-1.5">Observação (Opcional)</label>
+231
+                            <textarea rows="2" class="w-full border border-gray-300 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Ex: Tela trincada após queda acidental no pátio..."></textarea>
+232
+                        </div>
+233
+​
+234
+                        <div class="flex justify-end pt-4 border-t border-gray-100">
+235
+                            <button type="button" class="w-full sm:w-auto px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold text-sm rounded-xl transition shadow-sm flex items-center justify-center gap-2">
+236
+                                <i data-lucide="trash-2" class="w-4 h-4"></i> Confirmar Baixa do Item
+237
+                            </button>
+238
+                        </div>
+239
+                    </div>
+240
+                </div>
+241
+            </section>
+242
+​
+243
+        </main>
+244
+    </div>
+245
+​
+246
+    <script>
+247
+        lucide.createIcons();
+248
+    </script>
+249
+</body>
+250
+</html>
