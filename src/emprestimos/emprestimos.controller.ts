@@ -1,4 +1,4 @@
-﻿import { Controller, Delete, Get, Param, ParseIntPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post } from "@nestjs/common";
 import { EmprestimoAluno } from "./emprestimo-aluno.entity";
 import { EmprestimoProfessor } from "./emprestimo-professor.entity";
 import { EmprestimosService } from "./emprestimos.service";
@@ -6,6 +6,11 @@ import { EmprestimosService } from "./emprestimos.service";
 @Controller("emprestimos")
 export class EmprestimosController {
   constructor(private readonly emprestimosService: EmprestimosService) {}
+
+  @Get("historico")
+  findHistorico() {
+    return this.emprestimosService.findHistorico();
+  }
 
   @Get("alunos")
   findAllAlunos(): Promise<EmprestimoAluno[]> {
@@ -17,6 +22,11 @@ export class EmprestimosController {
     @Param("id", ParseIntPipe) idEA: number,
   ): Promise<EmprestimoAluno | null> {
     return this.emprestimosService.findOneAluno(idEA);
+  }
+
+  @Post("alunos")
+  createAluno(@Body() body): Promise<EmprestimoAluno> {
+    return this.emprestimosService.createAluno(body);
   }
 
   @Delete("alunos/:id")
@@ -34,6 +44,11 @@ export class EmprestimosController {
     @Param("id", ParseIntPipe) idEP: number,
   ): Promise<EmprestimoProfessor | null> {
     return this.emprestimosService.findOneProfessor(idEP);
+  }
+
+  @Post("professores")
+  createProfessor(@Body() body): Promise<EmprestimoProfessor> {
+    return this.emprestimosService.createProfessor(body);
   }
 
   @Delete("professores/:id")
