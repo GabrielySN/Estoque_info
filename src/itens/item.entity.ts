@@ -1,10 +1,6 @@
-﻿import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-export type ItemStatus =
-  | "Disponível"
-  | "Em manutenção"
-  | "Sem conserto"
-  | "Emprestado";
+export type ItemStatus = "disponivel" | "manutencao" | "indisponivel";
 
 @Entity("itens")
 export class Item {
@@ -14,8 +10,8 @@ export class Item {
   @Column({ name: "nome_item", type: "varchar", length: 30 })
   nomeItem: string;
 
-  @Column({ name: "modelo_item", type: "varchar", length: 20 })
-  modeloItem: string;
+  @Column({ name: "modelo_item", type: "varchar", length: 20, nullable: true })
+  modeloItem: string | null;
 
   @Column({ name: "qtd_item", type: "int", default: 0 })
   qtdItem: number;
@@ -23,11 +19,10 @@ export class Item {
   @Column({
     name: "status_item",
     type: "enum",
-    enum: ["Disponível", "Em manutenção", "Sem conserto", "Emprestado"],
-    default: "Disponível",
+    enum: ["disponivel", "manutencao", "indisponivel"],
   })
   statusItem: ItemStatus;
 
-  @Column({ name: "id_categoria", type: "int" })
-  idCategoria: number;
+  @Column({ name: "id_categoria", type: "int", nullable: true })
+  idCategoria: number | null;
 }
