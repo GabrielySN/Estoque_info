@@ -1,4 +1,4 @@
-﻿import { Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Direcao } from "./direcao.entity";
@@ -19,6 +19,6 @@ export class DirecaoService {
   }
 
   async remove(emailEscola: string): Promise<void> {
-    await this.direcaoRepository.delete(emailEscola);
+    await this.direcaoRepository.delete({ emailEscola });
   }
 }
