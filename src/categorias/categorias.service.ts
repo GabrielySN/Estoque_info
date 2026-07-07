@@ -1,7 +1,13 @@
-﻿import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Categoria } from "./categoria.entity";
+
+type CreateCategoriaInput = {
+  nomeCategoria: string;
+};
+
+type UpdateCategoriaInput = Partial<CreateCategoriaInput>;
 
 @Injectable()
 export class CategoriasService {
@@ -16,6 +22,28 @@ export class CategoriasService {
 
   findOne(idCategoria: number): Promise<Categoria | null> {
     return this.categoriasRepository.findOneBy({ idCategoria });
+  }
+
+  create(input: CreateCategoriaInput): Promise<Categoria> {
+    return this.categoriasRepository.save(
+      this.categoriasRepository.create({
+        nomeCategoria: input.nomeCategoria,
+      }),
+    );
+  }
+
+  async update(
+    idCategoria: number,
+    input: UpdateCategoriaInput,
+  ): Promise<Categoria> {
+    const categoria = await this.categoriasRepository.findOneBy({ idCategoria });
+
+    if (!categoria) {
+      throw new NotFoundException("Categoria nao encontrada.");
+    }
+
+    categoria.nomeCategoria = input.nomeCategoria ?? categoria.nomeCategoria;
+    return this.categoriasRepository.save(categoria);
   }
 
   async remove(idCategoria: number): Promise<void> {
