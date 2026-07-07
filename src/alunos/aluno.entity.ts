@@ -1,4 +1,4 @@
-﻿import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity("aluno")
 export class Aluno {
@@ -6,19 +6,19 @@ export class Aluno {
   emailEscola: string;
 
   @Column({
-    name: "nome_usuario",
-    type: "varchar",
-    length: 255,
-    nullable: true,
+    name: "tipo_usuario",
+    type: "enum",
+    enum: ["aluno"],
+    default: "aluno",
   })
-  nomeUsuario: string | null;
+  tipoUsuario: "aluno";
 
-  @Column({ name: "nome_turma", type: "varchar", length: 10 })
-  nomeTurma: string;
+  @Column({ name: "nome_turma", type: "varchar", length: 10, nullable: true })
+  nomeTurma: string | null;
 
-  @Column({ name: "num_chamada", type: "int" })
-  numChamada: number;
+  @Column({ name: "num_chamada", type: "int", nullable: true })
+  numChamada: number | null;
 
-  @Column({ type: "varchar", length: 255 })
-  senha: string;
+  @Column({ name: "id_direcao", type: "int", nullable: true })
+  idDirecao: number | null;
 }
