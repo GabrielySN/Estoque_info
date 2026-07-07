@@ -1,4 +1,4 @@
-﻿import { Module } from "@nestjs/common";
+import { Module } from "@nestjs/common";
 import { CategoriasController } from "./categorias.controller";
 import { CategoriasModule } from "./categorias.module";
 import { CategoriasService } from "./categorias.service";
