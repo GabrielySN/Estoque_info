@@ -2,6 +2,10 @@
 
 Sistema de estoque escolar feito com NestJS, TypeScript, TypeORM e MySQL.
 
+##Link do Figma:
+
+https://www.figma.com/design/DeLFnTUgo7RCAaOh7WxQ9c/Gerenciamento-de-emprestimo?node-id=250-120&t=wVeaGfwO12uuA0vl-1
+
 ## Estrutura principal
 
 - `src`: código-fonte da aplicação.
